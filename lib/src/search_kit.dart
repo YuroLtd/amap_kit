@@ -1,4 +1,3 @@
-
 import 'package:amap_kit/amap_kit.dart';
 
 typedef OnWeatherChanged = void Function(Weather? weather, dynamic err);
@@ -26,7 +25,7 @@ class WeatherSearchKit extends AmapKit {
   ///
   /// @param type         天气类型
   Future<String?> weatherSearch(String city,
-      {WeatherType type = WeatherType.WEATHER_TYPE_LIVE, OnWeatherChanged? onChanged}) async {
+      {WeatherType type = WeatherType.WEATHER_TYPE_LIVE, required OnWeatherChanged onChanged}) async {
     this._onWeatherChanged = onChanged;
     await AmapKit.methodChannel.invokeMethod('weatherSearch', {'city': city, 'type': type.index});
   }

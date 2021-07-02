@@ -1,4 +1,3 @@
-
 import 'package:amap_kit/amap_kit.dart';
 
 import 'bean/location.dart';
@@ -23,12 +22,12 @@ class LocationKit extends AmapKit {
 
   /// 开始定位
   ///
-  /// @param OnLocationChanged 定位结果回调
-  ///
   /// @param options           定位参数
   ///
+  /// @param OnLocationChanged 定位结果回调
+  ///
   /// @return                  定位id,取消时需要传入
-  Future<String?> startLocation(OnLocationChanged onChanged, {LocationOptions? options}) async {
+  Future<String?> startLocation({LocationOptions? options, required OnLocationChanged onChanged}) async {
     this._onChanged = onChanged;
     return await AmapKit.methodChannel.invokeMethod<String>('startLocation', {
       'locationId': DateTime.now().millisecondsSinceEpoch.toString(),
