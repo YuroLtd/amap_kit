@@ -49,6 +49,10 @@ extension _MapExt on Map {
       if (this[key] is Map) {
         this[key] = Map<String, dynamic>.from(this[key])..deepCast();
       }
+      if (this[key] is List) {
+        var list = this[key] as List;
+        this[key] = List.generate(list.length, (index) => Map<String, dynamic>.from(list[index])..deepCast());
+      }
     });
   }
 }
