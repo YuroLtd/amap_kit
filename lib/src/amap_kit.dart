@@ -24,7 +24,7 @@ abstract class AmapKit {
 
   void handlerErr(err);
 
-  static Future<void> setApiKey(String androidKey, String iosKey) async {
+  static void setApiKey(String androidKey, String iosKey) async {
     await methodChannel.invokeMethod('setApiKey', {'androidKey': androidKey, 'iosKey': iosKey});
   }
 
