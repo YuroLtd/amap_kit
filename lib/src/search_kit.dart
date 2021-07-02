@@ -24,7 +24,7 @@ class WeatherSearchKit extends AmapKit {
   /// @param onChanged    天气获取的结果回调
   ///
   /// @param type         天气类型
-  Future<String?> weatherSearch(String city,
+  void weatherSearch(String city,
       {WeatherType type = WeatherType.WEATHER_TYPE_LIVE, required OnWeatherChanged onChanged}) async {
     this._onWeatherChanged = onChanged;
     await AmapKit.methodChannel.invokeMethod('weatherSearch', {'city': city, 'type': type.index});
