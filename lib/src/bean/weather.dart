@@ -12,17 +12,11 @@ class Weather extends Object {
 
   String reportTime;
 
-  LiveWeather? live;
-
-  List<ForecastWeather>? forecast;
-
   Weather(
     this.adCode,
     this.province,
     this.city,
     this.reportTime,
-    this.live,
-    this.forecast,
   );
 
   factory Weather.fromJson(Map<String, dynamic> srcJson) => _$WeatherFromJson(srcJson);
@@ -31,7 +25,7 @@ class Weather extends Object {
 }
 
 @JsonSerializable()
-class LiveWeather extends Object {
+class LiveWeather extends Weather {
   String temperature;
 
   String humidity;
@@ -48,7 +42,11 @@ class LiveWeather extends Object {
     this.weather,
     this.windDirection,
     this.windPower,
-  );
+    String adCode,
+    String province,
+    String city,
+    String reportTime,
+  ) : super(adCode, province, city, reportTime);
 
   factory LiveWeather.fromJson(Map<String, dynamic> srcJson) => _$LiveWeatherFromJson(srcJson);
 
@@ -56,7 +54,24 @@ class LiveWeather extends Object {
 }
 
 @JsonSerializable()
-class ForecastWeather extends Object {
+class ForecastWeather extends Weather {
+  List<ForecastWeatherByDay> forecasts;
+
+  ForecastWeather(
+    this.forecasts,
+    String adCode,
+    String province,
+    String city,
+    String reportTime,
+  ) : super(adCode, province, city, reportTime);
+
+  factory ForecastWeather.fromJson(Map<String, dynamic> srcJson) => _$ForecastWeatherFromJson(srcJson);
+
+  Map<String, dynamic> toJson() => _$ForecastWeatherToJson(this);
+}
+
+@JsonSerializable()
+class ForecastWeatherByDay extends Object {
   String date;
 
   String dayTemp;
@@ -75,7 +90,7 @@ class ForecastWeather extends Object {
 
   String nightWindPower;
 
-  ForecastWeather(
+  ForecastWeatherByDay(
     this.date,
     this.dayTemp,
     this.dayWeather,
@@ -87,7 +102,7 @@ class ForecastWeather extends Object {
     this.nightWindPower,
   );
 
-  factory ForecastWeather.fromJson(Map<String, dynamic> srcJson) => _$ForecastWeatherFromJson(srcJson);
+  factory ForecastWeatherByDay.fromJson(Map<String, dynamic> srcJson) => _$ForecastWeatherByDayFromJson(srcJson);
 
-  Map<String, dynamic> toJson() => _$ForecastWeatherToJson(this);
+  Map<String, dynamic> toJson() => _$ForecastWeatherByDayToJson(this);
 }

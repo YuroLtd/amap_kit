@@ -38,3 +38,10 @@ enum CoordType { BAIDU, MAPBAR, MAPABC, SOSOMAP, ALIYUN, GOOGLE, GPS }
 ///
 /// WEATHER_TYPE_FORECAST 预报天气
 enum WeatherType { WEATHER_TYPE_LIVE, WEATHER_TYPE_FORECAST }
+
+/// 地图类型
+///
+/// AMap 高德地图
+///
+/// BMap 百度地图
+enum MapType { AMap, BMap }

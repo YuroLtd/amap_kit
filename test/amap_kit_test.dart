@@ -20,4 +20,8 @@ void main() {
   test('getPlatformVersion', () async {
     // expect(await AmapKit.platformVersion, '42');
   });
+
+  test('description', () {
+    print(LocationOptions(locationMode: LocationMode.Hight_Accuracy).toJson());
+  });
 }

@@ -1,4 +1,4 @@
-package com.yuro.amap_kit
+package com.yuro.amap_kit.src.plugin
 
 import androidx.annotation.NonNull
 import io.flutter.plugin.common.MethodCall

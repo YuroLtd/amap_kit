@@ -1,10 +1,15 @@
-package com.yuro.amap_kit
+package com.yuro.amap_kit.src.plugin
 
 import android.content.Context
+import android.util.Log
 import com.amap.api.services.weather.*
+import com.yuro.amap_kit.AmapKitPlugin
+import com.yuro.amap_kit.src.util.Bid
+import com.yuro.amap_kit.src.util.Tid
 import io.flutter.plugin.common.MethodCall
 
 object SearchPlugin {
+
     /**
      * 获取天气数据
      */
@@ -16,13 +21,13 @@ object SearchPlugin {
         search.setOnWeatherSearchListener(object : WeatherSearch.OnWeatherSearchListener {
             override fun onWeatherLiveSearched(p0: LocalWeatherLiveResult?, p1: Int) {
                 p0?.liveResult?.let {
-                    AmapKitPlugin.sendSuccessEventSink("weather", it.toMap())
+                    AmapKitPlugin.sendSuccess(Tid.SEARCH, Bid.WEATHER_LIVE, it.toMap())
                 }
             }
 
             override fun onWeatherForecastSearched(p0: LocalWeatherForecastResult?, p1: Int) {
                 p0?.forecastResult?.let {
-                    AmapKitPlugin.sendSuccessEventSink("weather", it.toMap())
+                    AmapKitPlugin.sendSuccess(Tid.SEARCH, Bid.WEATHER_FORECAST, it.toMap())
                 }
             }
         })
@@ -36,13 +41,11 @@ fun LocalWeatherLive.toMap(): Map<String, Any> {
         "province" to province,
         "city" to city,
         "reportTime" to reportTime,
-        "live" to mapOf(
-            "humidity" to humidity,
-            "temperature" to temperature,
-            "weather" to weather,
-            "windDirection" to windDirection,
-            "windPower" to windPower
-        )
+        "humidity" to humidity,
+        "temperature" to temperature,
+        "weather" to weather,
+        "windDirection" to windDirection,
+        "windPower" to windPower
     )
 }
 
@@ -51,7 +54,7 @@ fun LocalWeatherForecast.toMap(): Map<String, Any> {
         "province" to province,
         "city" to city,
         "reportTime" to reportTime,
-        "forecast" to weatherForecast.map {
+        "forecasts" to weatherForecast.map {
             mapOf(
                 "date" to it.date,
                 "dayTemp" to it.dayTemp,

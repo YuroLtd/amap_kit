@@ -6,4 +6,6 @@ export 'location_options.dart';
 
 export 'weather.dart';
 
+export 'navigation.dart';
+
 

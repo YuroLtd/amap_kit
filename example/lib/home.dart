@@ -8,29 +8,58 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String? locationId;
-  var locationKit = LocationKit();
+  final ak = 'ZwS8trYICIwuHuSfZ63ptHH27KNldd2L';
+  final mcode =
+      '6D:FE:E1:3A:BC:BB:FA:A7:D4:4D:B4:87:28:83:9D:56:15:13:AE:5D:B7:CD:3B:0B:61:42:1A:4D:BB:0C:FE:F5;com.yuro.amap_kit_example';
 
-  Future<void> setApiKey() async {
-    await AmapKit.setApiKey('f182caf3ac5249c34b39d928509c46dd', '');
+  void setApiKey() async {
+    AmapKit().tool.setApiKey('f182caf3ac5249c34b39d928509c46dd', '');
   }
 
   void startLocation() async {
     if (await Permission.locationWhenInUse.request().isGranted) {
-      locationId = await locationKit.startLocation(onChanged: (location, err) {
-        print('${location?.toJson()},$err');
+      AmapKit().location.startLocation(onChanged: (location) {
+        print('${location.toJson()}');
       });
     }
   }
 
   void stopLocation() async {
-    if (locationId != null) locationKit.stopLocation(locationId!);
+    AmapKit().location.stopLocation();
   }
 
-  void weatherQuery() async {
-    WeatherSearchKit().weatherSearch('成都', type: WeatherType.WEATHER_TYPE_LIVE, onChanged: (weather, err) {
-      print('${weather?.toJson()}');
-    });
+  void liveWeather() async {
+    AmapKit().search.liveWeather(
+        city: '成都',
+        onChanged: (weather) {
+          print('${weather.toJson()}');
+        });
+  }
+
+  void forecastWeather() async {
+    AmapKit().search.forecastWeather(
+        city: '成都',
+        onChanged: (weather) {
+          print('${weather.toJson()}');
+        });
+  }
+
+  void checkNativeMaps() async {
+    final result = await AmapKit().nav.checkNativeMaps();
+    print(result.toJson());
+  }
+
+  void amapNav() {
+    AmapKit().nav.amapNav(src: 'com.yuro.amap_kit_example', target: LatLng(104.066811, 30.657635));
+  }
+
+  void bmapNav() {
+    AmapKit().nav.bmapNav(
+          ak: ak,
+          mcode: mcode,
+          src: 'com.yuro.amap_kit_example',
+          target: LatLng(104.066811, 30.657635),
+        );
   }
 
   @override
@@ -44,7 +73,13 @@ class _HomePageState extends State<HomePage> {
             ElevatedButton(onPressed: startLocation, child: Text('启动定位')),
             ElevatedButton(onPressed: stopLocation, child: Text('停止定位')),
           ]),
-          ElevatedButton(onPressed: weatherQuery, child: Text('查询天气')),
+          ElevatedButton(onPressed: liveWeather, child: Text('实时天气')),
+          ElevatedButton(onPressed: forecastWeather, child: Text('天气预报')),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+            ElevatedButton(onPressed: checkNativeMaps, child: Text('地图检查')),
+            ElevatedButton(onPressed: amapNav, child: Text('高德导航')),
+            ElevatedButton(onPressed: bmapNav, child: Text('百度导航')),
+          ]),
         ]),
       ));
 }
