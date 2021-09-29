@@ -1,3 +1,4 @@
+import 'package:amap_kit/amap_kit.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'location.g.dart';
@@ -105,4 +106,6 @@ class Location extends Object {
   factory Location.fromJson(Map<String, dynamic> srcJson) => _$LocationFromJson(srcJson);
 
   Map<String, dynamic> toJson() => _$LocationToJson(this);
+
+  LatLng get latLng => LatLng(lng: longitude, lat: latitude);
 }
