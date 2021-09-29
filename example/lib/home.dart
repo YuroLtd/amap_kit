@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void amapNav() {
-    AmapKit().nav.amapNav(src: 'com.yuro.amap_kit_example', target: LatLng(104.066811, 30.657635));
+    AmapKit().nav.amapNav(src: 'com.yuro.amap_kit_example', target: LatLng(lng: 104.066811, lat: 30.657635));
   }
 
   void bmapNav() {
@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
           ak: ak,
           mcode: mcode,
           src: 'com.yuro.amap_kit_example',
-          target: LatLng(104.066811, 30.657635),
+          target: LatLng(lng: 104.066811, lat: 30.657635),
         );
   }
 

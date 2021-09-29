@@ -5,15 +5,15 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'lat_lng.g.dart';
 
-/// longitude 经度
+/// lng 经度
 ///
-/// latitude 纬度
+/// lat 纬度
 @JsonSerializable()
 class LatLng {
-  final double longitude;
-  final double latitude;
+  final double lng;
+  final double lat;
 
-  const LatLng(this.longitude, this.latitude);
+  const LatLng({required this.lng, required this.lat});
 
   factory LatLng.fromJson(Map<String, dynamic> srcJson) => _$LatLngFromJson(srcJson);
 
@@ -24,7 +24,7 @@ extension LatLngExt on LatLng {
   /// 将高德坐标转为百度bd09ll坐标
   Future<LatLng?> convertToBaidu(String ak, String mcode) async {
     var client = HttpClient();
-    final url = 'http://api.map.baidu.com/geoconv/v1/?coords=$longitude,$latitude&from=3&to=5&ak=$ak&mcode=$mcode';
+    final url = 'http://api.map.baidu.com/geoconv/v1/?coords=$lng,$lat&from=3&to=5&ak=$ak&mcode=$mcode';
     var request = await client.getUrl(Uri.parse(url));
     var response = await request.close();
     if (response.statusCode == HttpStatus.ok) {
@@ -32,7 +32,7 @@ extension LatLngExt on LatLng {
       var resultMap = json.decode(result);
       if (resultMap['status'] == 0) {
         var first = (resultMap['result'] as List).first;
-        return LatLng(first['x'], first['y']);
+        return LatLng(lng: first['x'], lat: first['y']);
       }
     }
     return null;

@@ -50,5 +50,6 @@ const _$TidEnumMap = {
   Tid.LOCATION: 'LOCATION',
   Tid.GEOFENCE: 'GEOFENCE',
   Tid.SEARCH: 'SEARCH',
+  Tid.NAVIGATION: 'NAVIGATION',
   Tid.TOOL: 'TOOL',
 };

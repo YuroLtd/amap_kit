@@ -1,7 +1,6 @@
 package com.yuro.amap_kit.src.plugin
 
 import android.content.Context
-import android.util.Log
 import com.amap.api.services.weather.*
 import com.yuro.amap_kit.AmapKitPlugin
 import com.yuro.amap_kit.src.util.Bid

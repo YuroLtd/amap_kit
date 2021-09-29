@@ -17,11 +17,7 @@ class NavigationKit implements Kit {
   ///
   /// @param target 目的地坐标
   void amapNav({required String src, required LatLng target}) async {
-    await AmapKit.methodChannel.invokeMethod('amapNav', {
-      "src": src,
-      "lat": target.latitude,
-      "lon": target.longitude,
-    });
+    await AmapKit.methodChannel.invokeMethod('amapNav', {"src": src, "lat": target.lat, "lon": target.lng});
   }
 
   /// 启动百度导航
@@ -30,7 +26,7 @@ class NavigationKit implements Kit {
     if (baiduTarget != null)
       await AmapKit.methodChannel.invokeMethod('bmapNav', {
         "src": src,
-        "location": '${baiduTarget.latitude},${baiduTarget.longitude}',
+        "location": '${baiduTarget.lat},${baiduTarget.lng}',
       });
   }
 }
