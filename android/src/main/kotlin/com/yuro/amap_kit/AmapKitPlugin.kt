@@ -29,7 +29,7 @@ import java.util.*
 /** AmapKitPlugin */
 class AmapKitPlugin : FlutterPlugin, ActivityAware, MethodCallHandler, EventChannel.StreamHandler {
     companion object {
-        private const val TAG = "AmapKit"
+        const val TAG = "AmapKit"
         private const val METHOD_CHANNEL = "plugin.yuro.com/amap_kit.method"
         private const val EVENT_CHANNEL = "plugin.yuro.com/amap_kit.event"
 
@@ -96,7 +96,7 @@ class AmapKitPlugin : FlutterPlugin, ActivityAware, MethodCallHandler, EventChan
                 val androidKey = call.argument<String>("androidKey")
                 MapsInitializer.setApiKey(androidKey)
                 AMapLocationClient.setApiKey(androidKey)
-                sHA1(activity)
+                ToolPlugin.appSha1(activity)
             }
 
             // location
@@ -122,30 +122,6 @@ class AmapKitPlugin : FlutterPlugin, ActivityAware, MethodCallHandler, EventChan
             "calculateLineDistance" -> ToolPlugin.calculateLineDistance(call, result)
             "coordinateConvert" -> ToolPlugin.coordinateConvert(activity, call, result)
             else -> result.notImplemented()
-        }
-    }
-
-    fun sHA1(context: Context) {
-        try {
-            val info = context.packageManager.getPackageInfo(context.packageName, PackageManager.GET_SIGNATURES)
-            val cert = info.signatures[0].toByteArray()
-            val md = MessageDigest.getInstance("SHA1")
-            val publicKey = md.digest(cert)
-            val hexString = StringBuffer()
-            for (i in publicKey.indices) {
-                val appendString = Integer.toHexString(0xFF and publicKey[i].toInt())
-                    .toUpperCase(Locale.US)
-                if (appendString.length == 1) hexString.append("0")
-                hexString.append(appendString)
-                hexString.append(":")
-            }
-            val result = hexString.toString()
-            Log.d(TAG, "sHA1: ${result.substring(0, result.length - 1)}")
-
-        } catch (e: PackageManager.NameNotFoundException) {
-            e.printStackTrace()
-        } catch (e: NoSuchAlgorithmException) {
-            e.printStackTrace()
         }
     }
 }
