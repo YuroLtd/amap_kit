@@ -96,7 +96,6 @@ class AmapKitPlugin : FlutterPlugin, ActivityAware, MethodCallHandler, EventChan
                 val androidKey = call.argument<String>("androidKey")
                 MapsInitializer.setApiKey(androidKey)
                 AMapLocationClient.setApiKey(androidKey)
-                ToolPlugin.appSha1(activity)
             }
 
             // location

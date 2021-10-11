@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:amap_kit/src/kit/kit.dart';
 import 'package:amap_kit/src/bean/event_sink.dart';
@@ -20,19 +21,19 @@ class AmapKit {
         .receiveBroadcastStream()
         .asBroadcastStream()
         .map<Map<String, dynamic>>((event) => Map<String, dynamic>.from(event))
-        .listen(onData, onError: onError);
+        .listen(_onData, onError: _onError);
   }
 
   factory AmapKit() => _amapKit ??= AmapKit._();
 
-  void onData(Map<String, dynamic> event) {
+  void _onData(Map<String, dynamic> event) {
     final eventSink = EventSink.fromJson(event);
     _kitMap.where((k, v) => k == eventSink.tid).forEach((key, value) {
       value.handlerData(eventSink.bid, eventSink.data);
     });
   }
 
-  void onError(err) => print(err);
+  void _onError(err) => debugPrint(err);
 
   /// 定位
   LocationKit get location => _kitMap.putIfAbsent(Tid.LOCATION, () => LocationKit()) as LocationKit;

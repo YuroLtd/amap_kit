@@ -14,30 +14,6 @@ import java.security.NoSuchAlgorithmException
 import java.util.*
 
 object ToolPlugin {
-    @SuppressLint("PackageManagerGetSignatures")
-    fun appSha1(context: Context) {
-        try {
-            val info = context.packageManager.getPackageInfo(context.packageName, PackageManager.GET_SIGNATURES)
-            val cert = info.signatures[0].toByteArray()
-            val md = MessageDigest.getInstance("SHA1")
-            val publicKey = md.digest(cert)
-            val hexString = StringBuffer()
-            for (i in publicKey.indices) {
-                val appendString = Integer.toHexString(0xFF and publicKey[i].toInt())
-                    .toUpperCase(Locale.US)
-                if (appendString.length == 1) hexString.append("0")
-                hexString.append(appendString)
-                hexString.append(":")
-            }
-            val result = hexString.toString()
-            Log.d(AmapKitPlugin.TAG, "SHA1: ${result.substring(0, result.length - 1)}")
-        } catch (e: PackageManager.NameNotFoundException) {
-            e.printStackTrace()
-        } catch (e: NoSuchAlgorithmException) {
-            e.printStackTrace()
-        }
-    }
-
     /**
      * 计算两个坐标点的距离
      */
