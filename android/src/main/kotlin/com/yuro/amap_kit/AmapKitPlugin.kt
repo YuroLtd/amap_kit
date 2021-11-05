@@ -93,6 +93,14 @@ class AmapKitPlugin : FlutterPlugin, ActivityAware, MethodCallHandler, EventChan
         Log.d(TAG, "onMethodCall: ${call.method},${call.arguments}")
         when (call.method) {
             "setApiKey" -> {
+                val isContains = call.argument<Boolean>("isContains") ?: false
+                val isShow = call.argument<Boolean>("isShow") ?: false
+                MapsInitializer.updatePrivacyShow(activity, isContains, isShow)
+
+                val isAgree = call.argument<Boolean>("isAgree") ?: false
+                MapsInitializer.updatePrivacyAgree(activity, isAgree)
+
+                //设置ApiKey
                 val androidKey = call.argument<String>("androidKey")
                 MapsInitializer.setApiKey(androidKey)
                 AMapLocationClient.setApiKey(androidKey)
