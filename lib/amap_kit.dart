@@ -1,23 +1,16 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
-import 'package:amap_kit/src/kit/kit.dart';
 import 'package:amap_kit/src/bean/event_sink.dart';
+import 'package:amap_kit/src/kit/kit.dart';
 import 'package:amap_kit/src/util/map_ext.dart';
+import 'package:flutter/foundation.dart';
 
 export 'src/bean/bean.dart';
 
 class AmapKit {
-  static const _METHOD_CHANNEL = 'plugin.yuro.com/amap_kit.method';
-  static const _EVENT_CHANNEL = 'plugin.yuro.com/amap_kit.event';
-
-  static const MethodChannel methodChannel = const MethodChannel(_METHOD_CHANNEL);
-  static const EventChannel _eventChannel = const EventChannel(_EVENT_CHANNEL);
-
   static AmapKit? _amapKit;
   static Map<Tid, Kit> _kitMap = {};
 
   AmapKit._() {
-    _eventChannel
+    eventChannel
         .receiveBroadcastStream()
         .asBroadcastStream()
         .map<Map<String, dynamic>>((event) => Map<String, dynamic>.from(event))
@@ -34,6 +27,9 @@ class AmapKit {
   }
 
   void _onError(err) => debugPrint(err);
+
+  /// 是否已经初始化
+  bool initialized = false;
 
   /// 定位
   LocationKit get location => _kitMap.putIfAbsent(Tid.LOCATION, () => LocationKit()) as LocationKit;

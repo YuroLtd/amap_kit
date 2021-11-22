@@ -7,7 +7,7 @@ class NavigationKit implements Kit {
 
   /// 本机地图安装检查
   Future<NativeMaps> checkNativeMaps() async {
-    final result = await AmapKit.methodChannel.invokeMethod('checkNativeMaps');
+    final result = await methodChannel.invokeMethod('checkNativeMaps');
     return result != null ? NativeMaps.fromJson(Map.castFrom(result)) : NativeMaps();
   }
 
@@ -17,14 +17,14 @@ class NavigationKit implements Kit {
   ///
   /// @param target 目的地坐标
   void amapNav({required String src, required LatLng target}) async {
-    await AmapKit.methodChannel.invokeMethod('amapNav', {"src": src, "lat": target.lat, "lon": target.lng});
+    await methodChannel.invokeMethod('amapNav', {"src": src, "lat": target.lat, "lon": target.lng});
   }
 
   /// 启动百度导航
   void bmapNav({required String ak, required String mcode, required String src, required LatLng target}) async {
     final baiduTarget = await target.convertToBaidu(ak, mcode);
     if (baiduTarget != null)
-      await AmapKit.methodChannel.invokeMethod('bmapNav', {
+      await methodChannel.invokeMethod('bmapNav', {
         "src": src,
         "location": '${baiduTarget.lat},${baiduTarget.lng}',
       });

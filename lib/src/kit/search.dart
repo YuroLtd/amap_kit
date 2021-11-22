@@ -31,7 +31,7 @@ class SearchKit extends Kit {
   /// @param onChanged    天气获取的结果回调
   void liveWeather({required String city, required OnLiveWeather onChanged}) async {
     this._onLiveWeather = onChanged;
-    await AmapKit.methodChannel.invokeMethod('weatherSearch', {
+    await methodChannel.invokeMethod('weatherSearch', {
       'city': city,
       'type': WeatherType.WEATHER_TYPE_LIVE.index,
     });
@@ -44,7 +44,7 @@ class SearchKit extends Kit {
   /// @param onChanged    天气获取的结果回调
   void forecastWeather({required String city, required OnForecastWeather onChanged}) async {
     this._onForecastWeather = onChanged;
-    await AmapKit.methodChannel.invokeMethod('weatherSearch', {
+    await methodChannel.invokeMethod('weatherSearch', {
       'city': city,
       'type': WeatherType.WEATHER_TYPE_FORECAST.index,
     });

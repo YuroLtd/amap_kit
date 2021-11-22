@@ -1,19 +1,40 @@
 package com.yuro.amap_kit.src.plugin
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.content.pm.PackageManager
-import android.util.Log
+import com.amap.api.location.AMapLocationClient
 import com.amap.api.location.CoordinateConverter
 import com.amap.api.location.DPoint
-import com.yuro.amap_kit.AmapKitPlugin
+import com.amap.api.maps.MapsInitializer
+import com.amap.api.services.core.ServiceSettings
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
-import java.util.*
 
 object ToolPlugin {
+    fun setApiKey(context: Context, call: MethodCall, result: MethodChannel.Result) {
+        try {
+            val isContains = call.argument<Boolean>("isContains")!!
+            val isShow = call.argument<Boolean>("isShow")!!
+            val isAgree = call.argument<Boolean>("isAgree")!!
+
+            AMapLocationClient.updatePrivacyShow(context, isContains, isShow)
+            MapsInitializer.updatePrivacyShow(context, isContains, isShow)
+            ServiceSettings.updatePrivacyShow(context, isContains, isShow)
+
+            AMapLocationClient.updatePrivacyAgree(context, isAgree)
+            MapsInitializer.updatePrivacyAgree(context, isAgree)
+            ServiceSettings.updatePrivacyAgree(context, isAgree)
+
+            //设置ApiKey
+            val androidKey = call.argument<String>("androidKey")!!
+            MapsInitializer.setApiKey(androidKey)
+            AMapLocationClient.setApiKey(androidKey)
+            result.success(true)
+        } catch (e: Exception) {
+            result.success(false)
+        }
+    }
+
+
     /**
      * 计算两个坐标点的距离
      */

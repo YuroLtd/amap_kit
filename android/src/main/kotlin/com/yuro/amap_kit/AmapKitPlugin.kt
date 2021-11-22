@@ -49,7 +49,6 @@ class AmapKitPlugin : FlutterPlugin, ActivityAware, MethodCallHandler, EventChan
     private lateinit var eventChannel: EventChannel
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-        Log.d(TAG, "onAttachedToEngine")
         methodChannel = MethodChannel(flutterPluginBinding.binaryMessenger, METHOD_CHANNEL)
         methodChannel.setMethodCallHandler(this)
 
@@ -58,18 +57,15 @@ class AmapKitPlugin : FlutterPlugin, ActivityAware, MethodCallHandler, EventChan
     }
 
     override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
-        Log.d(TAG, "onDetachedFromEngine")
         methodChannel.setMethodCallHandler(null)
         eventChannel.setStreamHandler(null)
     }
 
     override fun onListen(p0: Any?, p1: EventChannel.EventSink?) {
-        Log.d(TAG, "onListen")
         eventSink = p1
     }
 
     override fun onCancel(p0: Any?) {
-        Log.d(TAG, "onCancel")
         eventSink = null
     }
 
@@ -92,20 +88,6 @@ class AmapKitPlugin : FlutterPlugin, ActivityAware, MethodCallHandler, EventChan
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
         Log.d(TAG, "onMethodCall: ${call.method},${call.arguments}")
         when (call.method) {
-            "setApiKey" -> {
-                val isContains = call.argument<Boolean>("isContains") ?: false
-                val isShow = call.argument<Boolean>("isShow") ?: false
-                MapsInitializer.updatePrivacyShow(activity, isContains, isShow)
-
-                val isAgree = call.argument<Boolean>("isAgree") ?: false
-                MapsInitializer.updatePrivacyAgree(activity, isAgree)
-
-                //设置ApiKey
-                val androidKey = call.argument<String>("androidKey")
-                MapsInitializer.setApiKey(androidKey)
-                AMapLocationClient.setApiKey(androidKey)
-            }
-
             // location
             "startLocation" -> LocationPlugin.startLocation(activity, call)
             "stopLocation" -> LocationPlugin.stopLocation()
@@ -126,6 +108,7 @@ class AmapKitPlugin : FlutterPlugin, ActivityAware, MethodCallHandler, EventChan
             "bmapNav" -> NavigationPlugin.bmapNav(activity, call)
 
             // tool
+            "setApiKey" -> ToolPlugin.setApiKey(activity, call, result)
             "calculateLineDistance" -> ToolPlugin.calculateLineDistance(call, result)
             "coordinateConvert" -> ToolPlugin.coordinateConvert(activity, call, result)
             else -> result.notImplemented()

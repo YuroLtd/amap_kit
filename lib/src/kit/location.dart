@@ -18,14 +18,14 @@ class LocationKit extends Kit {
   /// @param OnLocationChanged 定位结果回调
   void startLocation({required OnLocationChanged onChanged, LocationOptions? options}) async {
     this._onChanged = onChanged;
-    await AmapKit.methodChannel.invokeMethod('startLocation', (options ?? LocationOptions()).toJson());
+    await methodChannel.invokeMethod('startLocation', (options ?? LocationOptions()).toJson());
   }
 
   /// 停止定位
   ///
   /// @param locationId 定位id,启动定位时的返回
   void stopLocation() async {
-    await AmapKit.methodChannel.invokeMethod('stopLocation');
+    await methodChannel.invokeMethod('stopLocation');
     this._onChanged = null;
   }
 }
