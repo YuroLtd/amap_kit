@@ -1,87 +1,75 @@
 import 'package:amap_kit/amap_kit.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+import 'bean.dart';
+
 part 'location.g.dart';
 
-/// @param longitude 经度
+/// 定位结果
 ///
-/// @param latitude 纬度
-///
-/// @param accuracy 定位精度:米
-///
-/// @param altitude 海拔高度(单位：米)
-///
-/// @param address 地址信息
-///
-/// @param country 国家
-///
-/// @param province 省份
-///
-/// @param city 城市
-///
-/// @param district 区/县
-///
-/// @param street 街道
-///
-/// @param streetNum 门牌号
-///
-/// @param floor 楼层信息
-///
-/// @param cityCode 城市编码
-///
-/// @param adCode 区域编码
-///
-/// @param aoiName 当前位置所处AOI名称
-///
-/// @param poiName 当前位置POI名称
-///
-/// @param description 位置语义信息
-///
-/// @param speed 速度
-///
-/// @param bearing 方向角
-
+/// + [longitude] 经度
+/// + [latitude] 纬度
+/// + [accuracy] 定位精度:米
+/// + [altitude] 海拔高度(单位：米)
+/// + [address] 地址信息
+/// + [country] 国家
+/// + [province] 省份
+/// + [city] 城市
+/// + [district] 区/县
+/// + [street] 街道
+/// + [streetNum] 门牌号
+/// + [floor] 楼层信息
+/// + [cityCode] 城市编码
+/// + [adCode] 区域编码
+/// + [aoiName] 当前位置所处AOI名称
+/// + [poiName] 当前位置POI名称
+/// + [description] 位置语义信息
+/// + [speed] 速度
+/// + [bearing] 方向角
 @JsonSerializable()
 class Location extends Object {
-  double latitude;
+  final int locationId;
 
-  double longitude;
+  final double latitude;
 
-  double altitude;
+  final double longitude;
 
-  double accuracy;
+  final double altitude;
 
-  String address;
+  final double accuracy;
 
-  String country;
+  final String address;
 
-  String province;
+  final String country;
 
-  String city;
+  final String province;
 
-  String district;
+  final String city;
 
-  String street;
+  final String district;
 
-  String streetNum;
+  final String street;
 
-  String floor;
+  final String streetNum;
 
-  String cityCode;
+  final String floor;
 
-  String adCode;
+  final String cityCode;
 
-  String aoiName;
+  final String adCode;
 
-  String poiName;
+  final String aoiName;
 
-  String description;
+  final String poiName;
 
-  double speed;
+  final String description;
 
-  double bearing;
+  final double speed;
+
+  final double bearing;
 
   Location(
+    this.locationId,
     this.latitude,
     this.longitude,
     this.altitude,

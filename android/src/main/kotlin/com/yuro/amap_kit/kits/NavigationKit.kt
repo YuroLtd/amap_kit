@@ -1,4 +1,4 @@
-package com.yuro.amap_kit.src.plugin
+package com.yuro.amap_kit.kits
 
 import android.app.Activity
 import android.content.Context
@@ -7,7 +7,7 @@ import android.net.Uri
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 
-object NavigationPlugin {
+object NavigationKit {
     /**
      * 检查本机地图安装情况
      */

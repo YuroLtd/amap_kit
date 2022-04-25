@@ -4,9 +4,9 @@ part 'navigation.g.dart';
 
 @JsonSerializable()
 class NativeMaps extends Object {
-  bool amap;
+  final bool amap;
 
-  bool bmap;
+  final bool bmap;
 
   NativeMaps({this.amap = false, this.bmap = false});
 

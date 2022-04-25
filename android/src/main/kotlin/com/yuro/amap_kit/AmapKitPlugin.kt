@@ -2,18 +2,18 @@ package com.yuro.amap_kit
 
 import android.app.Activity
 import android.content.Context
-import android.content.pm.PackageManager
 import android.util.Log
 import androidx.annotation.NonNull
 import com.amap.api.location.AMapLocationClient
 import com.amap.api.maps.MapsInitializer
-import com.yuro.amap_kit.src.plugin.LocationPlugin
-import com.yuro.amap_kit.src.plugin.NavigationPlugin
-import com.yuro.amap_kit.src.plugin.SearchPlugin
-import com.yuro.amap_kit.src.plugin.ToolPlugin
-import com.yuro.amap_kit.src.util.Bid
-import com.yuro.amap_kit.src.util.ErrorCode
-import com.yuro.amap_kit.src.util.Tid
+import com.amap.api.services.core.ServiceSettings
+import com.yuro.amap_kit.kits.LocationKit
+import com.yuro.amap_kit.kits.NavigationKit
+import com.yuro.amap_kit.kits.SearchKit
+import com.yuro.amap_kit.kits.ToolKit
+import com.yuro.amap_kit.util.Bid
+import com.yuro.amap_kit.util.Kid
+
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -22,25 +22,17 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
-import java.util.*
 
 /** AmapKitPlugin */
 class AmapKitPlugin : FlutterPlugin, ActivityAware, MethodCallHandler, EventChannel.StreamHandler {
     companion object {
-        const val TAG = "AmapKit"
         private const val METHOD_CHANNEL = "plugin.yuro.com/amap_kit.method"
         private const val EVENT_CHANNEL = "plugin.yuro.com/amap_kit.event"
 
         private var eventSink: EventChannel.EventSink? = null
 
-        fun sendSuccess(tid: Tid, bid: Bid, data: Any? = null) {
-            eventSink?.success(mapOf("tid" to tid.name, "bid" to bid.value, "data" to data))
-        }
-
-        fun sendError(error: ErrorCode, message: String? = null, e: Throwable? = null) {
-            eventSink?.error(error.value.toString(), message ?: error.name, e)
+        fun send(kid: Kid, bid: Bid, code: Int, data: Any? = null) {
+            eventSink?.success(mapOf("kid" to kid.value, "bid" to bid.value, "code" to code, "data" to data))
         }
     }
 
@@ -56,11 +48,6 @@ class AmapKitPlugin : FlutterPlugin, ActivityAware, MethodCallHandler, EventChan
         eventChannel.setStreamHandler(this)
     }
 
-    override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
-        methodChannel.setMethodCallHandler(null)
-        eventChannel.setStreamHandler(null)
-    }
-
     override fun onListen(p0: Any?, p1: EventChannel.EventSink?) {
         eventSink = p1
     }
@@ -69,7 +56,17 @@ class AmapKitPlugin : FlutterPlugin, ActivityAware, MethodCallHandler, EventChan
         eventSink = null
     }
 
+    override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
+        methodChannel.setMethodCallHandler(null)
+        eventChannel.setStreamHandler(null)
+    }
+
     override fun onAttachedToActivity(p0: ActivityPluginBinding) {
+        activity = p0.activity
+    }
+
+
+    override fun onReattachedToActivityForConfigChanges(p0: ActivityPluginBinding) {
         activity = p0.activity
     }
 
@@ -77,20 +74,18 @@ class AmapKitPlugin : FlutterPlugin, ActivityAware, MethodCallHandler, EventChan
 
     }
 
-    override fun onReattachedToActivityForConfigChanges(p0: ActivityPluginBinding) {
-
-    }
-
     override fun onDetachedFromActivity() {
 
     }
 
+
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
-        Log.d(TAG, "onMethodCall: ${call.method},${call.arguments}")
+        Log.d("AmapKit", "onMethodCall: ${call.method},${call.arguments}")
         when (call.method) {
+            "setApiKey" -> setApiKey(activity, call, result)
             // location
-            "startLocation" -> LocationPlugin.startLocation(activity, call)
-            "stopLocation" -> LocationPlugin.stopLocation()
+            "startLocation" -> LocationKit.startLocation(activity, call,result)
+            "stopLocation" -> LocationKit.stopLocation(call,result)
 
             // geofence
 //            "addGeoFence" -> LocationPlugin.addGeoFence(call, result)
@@ -100,18 +95,42 @@ class AmapKitPlugin : FlutterPlugin, ActivityAware, MethodCallHandler, EventChan
 //            "removeGeoFence" -> LocationPlugin.removeGeoFence(call, result)
 
             // search
-            "weatherSearch" -> SearchPlugin.weatherSearch(activity, call)
-
+            "weatherSearch" -> SearchKit.weatherSearch(activity, call)
             // navigation
-            "checkNativeMaps" -> NavigationPlugin.checkNativeMaps(activity, result)
-            "amapNav" -> NavigationPlugin.amapNav(activity, call)
-            "bmapNav" -> NavigationPlugin.bmapNav(activity, call)
+            "checkNativeMaps" -> NavigationKit.checkNativeMaps(activity, result)
+            "amapNav" -> NavigationKit.amapNav(activity, call)
+            "bmapNav" -> NavigationKit.bmapNav(activity, call)
 
             // tool
-            "setApiKey" -> ToolPlugin.setApiKey(activity, call, result)
-            "calculateLineDistance" -> ToolPlugin.calculateLineDistance(call, result)
-            "coordinateConvert" -> ToolPlugin.coordinateConvert(activity, call, result)
+            "calculateLineDistance" -> ToolKit.calculateLineDistance(call, result)
+            "coordinateConvert" -> ToolKit.coordinateConvert(activity, call, result)
             else -> result.notImplemented()
         }
     }
+
+
+    private fun setApiKey(context: Context, call: MethodCall, result: Result) {
+        try {
+            val isContains = call.argument<Boolean>("isContains")!!
+            val isShow = call.argument<Boolean>("isShow")!!
+            val isAgree = call.argument<Boolean>("isAgree")!!
+
+            AMapLocationClient.updatePrivacyShow(context, isContains, isShow)
+            MapsInitializer.updatePrivacyShow(context, isContains, isShow)
+            ServiceSettings.updatePrivacyShow(context, isContains, isShow)
+
+            AMapLocationClient.updatePrivacyAgree(context, isAgree)
+            MapsInitializer.updatePrivacyAgree(context, isAgree)
+            ServiceSettings.updatePrivacyAgree(context, isAgree)
+
+            //设置ApiKey
+            val androidKey = call.argument<String>("android")!!
+            MapsInitializer.setApiKey(androidKey)
+            AMapLocationClient.setApiKey(androidKey)
+            result.success(true)
+        } catch (e: Exception) {
+            result.success(false)
+        }
+    }
+
 }

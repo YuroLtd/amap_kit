@@ -6,50 +6,29 @@ part of 'event_sink.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-EventSink _$EventSinkFromJson(Map<String, dynamic> json) {
-  return EventSink(
-    _$enumDecode(_$TidEnumMap, json['tid']),
-    json['bid'] as int,
-    json['data'],
-  );
-}
+EventSink _$EventSinkFromJson(Map<String, dynamic> json) => EventSink(
+      $enumDecode(_$KidEnumMap, json['kid']),
+      $enumDecode(_$BidEnumMap, json['bid']),
+      json['code'] as int,
+      json['data'],
+    );
 
 Map<String, dynamic> _$EventSinkToJson(EventSink instance) => <String, dynamic>{
-      'tid': _$TidEnumMap[instance.tid],
-      'bid': instance.bid,
+      'kid': _$KidEnumMap[instance.kid],
+      'bid': _$BidEnumMap[instance.bid],
+      'code': instance.code,
       'data': instance.data,
     };
 
-K _$enumDecode<K, V>(
-  Map<K, V> enumValues,
-  Object? source, {
-  K? unknownValue,
-}) {
-  if (source == null) {
-    throw ArgumentError(
-      'A value must be provided. Supported values: '
-      '${enumValues.values.join(', ')}',
-    );
-  }
+const _$KidEnumMap = {
+  Kid.location: 10,
+  Kid.search: 20,
+  Kid.navigate: 30,
+  Kid.tool: 40,
+};
 
-  return enumValues.entries.singleWhere(
-    (e) => e.value == source,
-    orElse: () {
-      if (unknownValue == null) {
-        throw ArgumentError(
-          '`$source` is not one of the supported values: '
-          '${enumValues.values.join(', ')}',
-        );
-      }
-      return MapEntry(unknownValue, enumValues.values.first);
-    },
-  ).key;
-}
-
-const _$TidEnumMap = {
-  Tid.LOCATION: 'LOCATION',
-  Tid.GEOFENCE: 'GEOFENCE',
-  Tid.SEARCH: 'SEARCH',
-  Tid.NAVIGATION: 'NAVIGATION',
-  Tid.TOOL: 'TOOL',
+const _$BidEnumMap = {
+  Bid.location: 11,
+  Bid.weatherLive: 21,
+  Bid.weatherForecast: 22,
 };

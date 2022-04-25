@@ -1,6 +1,6 @@
 # amap_kit
 
-A new Flutter project.
+A new Flutter Plugin.
 
 ## Getting Started
 

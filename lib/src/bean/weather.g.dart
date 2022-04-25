@@ -6,14 +6,12 @@ part of 'weather.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Weather _$WeatherFromJson(Map<String, dynamic> json) {
-  return Weather(
-    json['adCode'] as String,
-    json['province'] as String,
-    json['city'] as String,
-    json['reportTime'] as String,
-  );
-}
+Weather _$WeatherFromJson(Map<String, dynamic> json) => Weather(
+      json['adCode'] as String,
+      json['province'] as String,
+      json['city'] as String,
+      json['reportTime'] as String,
+    );
 
 Map<String, dynamic> _$WeatherToJson(Weather instance) => <String, dynamic>{
       'adCode': instance.adCode,
@@ -22,19 +20,17 @@ Map<String, dynamic> _$WeatherToJson(Weather instance) => <String, dynamic>{
       'reportTime': instance.reportTime,
     };
 
-LiveWeather _$LiveWeatherFromJson(Map<String, dynamic> json) {
-  return LiveWeather(
-    json['temperature'] as String,
-    json['humidity'] as String,
-    json['weather'] as String,
-    json['windDirection'] as String,
-    json['windPower'] as String,
-    json['adCode'] as String,
-    json['province'] as String,
-    json['city'] as String,
-    json['reportTime'] as String,
-  );
-}
+LiveWeather _$LiveWeatherFromJson(Map<String, dynamic> json) => LiveWeather(
+      json['temperature'] as String,
+      json['humidity'] as String,
+      json['weather'] as String,
+      json['windDirection'] as String,
+      json['windPower'] as String,
+      json['adCode'] as String,
+      json['province'] as String,
+      json['city'] as String,
+      json['reportTime'] as String,
+    );
 
 Map<String, dynamic> _$LiveWeatherToJson(LiveWeather instance) =>
     <String, dynamic>{
@@ -49,17 +45,16 @@ Map<String, dynamic> _$LiveWeatherToJson(LiveWeather instance) =>
       'windPower': instance.windPower,
     };
 
-ForecastWeather _$ForecastWeatherFromJson(Map<String, dynamic> json) {
-  return ForecastWeather(
-    (json['forecasts'] as List<dynamic>)
-        .map((e) => ForecastWeatherByDay.fromJson(e as Map<String, dynamic>))
-        .toList(),
-    json['adCode'] as String,
-    json['province'] as String,
-    json['city'] as String,
-    json['reportTime'] as String,
-  );
-}
+ForecastWeather _$ForecastWeatherFromJson(Map<String, dynamic> json) =>
+    ForecastWeather(
+      (json['forecasts'] as List<dynamic>)
+          .map((e) => ForecastWeatherByDay.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      json['adCode'] as String,
+      json['province'] as String,
+      json['city'] as String,
+      json['reportTime'] as String,
+    );
 
 Map<String, dynamic> _$ForecastWeatherToJson(ForecastWeather instance) =>
     <String, dynamic>{
@@ -67,22 +62,22 @@ Map<String, dynamic> _$ForecastWeatherToJson(ForecastWeather instance) =>
       'province': instance.province,
       'city': instance.city,
       'reportTime': instance.reportTime,
-      'forecasts': instance.forecasts,
+      'forecasts': instance.forecasts.map((e) => e.toJson()).toList(),
     };
 
-ForecastWeatherByDay _$ForecastWeatherByDayFromJson(Map<String, dynamic> json) {
-  return ForecastWeatherByDay(
-    json['date'] as String,
-    json['dayTemp'] as String,
-    json['dayWeather'] as String,
-    json['dayWindDirection'] as String,
-    json['dayWindPower'] as String,
-    json['nightTemp'] as String,
-    json['nightWeather'] as String,
-    json['nightWindDirection'] as String,
-    json['nightWindPower'] as String,
-  );
-}
+ForecastWeatherByDay _$ForecastWeatherByDayFromJson(
+        Map<String, dynamic> json) =>
+    ForecastWeatherByDay(
+      json['date'] as String,
+      json['dayTemp'] as String,
+      json['dayWeather'] as String,
+      json['dayWindDirection'] as String,
+      json['dayWindPower'] as String,
+      json['nightTemp'] as String,
+      json['nightWeather'] as String,
+      json['nightWindDirection'] as String,
+      json['nightWindPower'] as String,
+    );
 
 Map<String, dynamic> _$ForecastWeatherByDayToJson(
         ForecastWeatherByDay instance) =>

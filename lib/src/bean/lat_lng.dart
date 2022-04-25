@@ -20,6 +20,17 @@ class LatLng {
   Map<String, dynamic> toJson() => _$LatLngToJson(this);
 }
 
+/// 常用坐标系
+///
+/// + [aliyun]  阿里云
+/// + [baidu]   百度坐标
+/// + [google]  谷歌坐标
+/// + [gps]     gps原始坐标
+/// + [mapabc]  图盟坐标
+/// + [mapbar]  图吧坐标
+/// + [sosomap]  搜搜坐标
+enum CoordType { baidu, mapbar, mapabc, sosomap, aliyun, google, gps }
+
 extension LatLngExt on LatLng {
   /// 将高德坐标转为百度bd09ll坐标
   Future<LatLng?> convertToBaidu(String ak, String mcode) async {

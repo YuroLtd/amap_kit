@@ -50,10 +50,11 @@ class LiveWeather extends Weather {
 
   factory LiveWeather.fromJson(Map<String, dynamic> srcJson) => _$LiveWeatherFromJson(srcJson);
 
+  @override
   Map<String, dynamic> toJson() => _$LiveWeatherToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class ForecastWeather extends Weather {
   List<ForecastWeatherByDay> forecasts;
 
@@ -67,6 +68,7 @@ class ForecastWeather extends Weather {
 
   factory ForecastWeather.fromJson(Map<String, dynamic> srcJson) => _$ForecastWeatherFromJson(srcJson);
 
+  @override
   Map<String, dynamic> toJson() => _$ForecastWeatherToJson(this);
 }
 

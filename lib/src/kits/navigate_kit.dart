@@ -1,9 +1,13 @@
-import 'package:amap_kit/amap_kit.dart';
+import 'package:amap_kit/src/bean/bean.dart';
+import 'package:flutter/services.dart';
+
 import 'kit.dart';
 
-class NavigationKit implements Kit {
+class NavigateKit extends Kit {
+  NavigateKit(MethodChannel methodChannel) : super(methodChannel);
+
   @override
-  void handlerData(int bid, data) {}
+  void handlerData(Bid bid, int code, data) {}
 
   /// 本机地图安装检查
   Future<NativeMaps> checkNativeMaps() async {
@@ -13,20 +17,25 @@ class NavigationKit implements Kit {
 
   /// 启动高德导航
   ///
-  /// @param src 调起应用包名
-  ///
-  /// @param target 目的地坐标
+  /// + [src] 调起应用包名
+  /// + [target] 目的地坐标
   void amapNav({required String src, required LatLng target}) async {
     await methodChannel.invokeMethod('amapNav', {"src": src, "lat": target.lat, "lon": target.lng});
   }
 
   /// 启动百度导航
+  ///
+  /// + [ak] 百度地图ak
+  /// + [mcode] 百度地图mcode
+  /// + [src] 调起应用包名
+  /// + [target] 目的地坐标
   void bmapNav({required String ak, required String mcode, required String src, required LatLng target}) async {
     final baiduTarget = await target.convertToBaidu(ak, mcode);
-    if (baiduTarget != null)
+    if (baiduTarget != null) {
       await methodChannel.invokeMethod('bmapNav', {
         "src": src,
         "location": '${baiduTarget.lat},${baiduTarget.lng}',
       });
+    }
   }
 }

@@ -6,12 +6,10 @@ part of 'navigation.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-NativeMaps _$NativeMapsFromJson(Map<String, dynamic> json) {
-  return NativeMaps(
-    amap: json['amap'] as bool,
-    bmap: json['bmap'] as bool,
-  );
-}
+NativeMaps _$NativeMapsFromJson(Map<String, dynamic> json) => NativeMaps(
+      amap: json['amap'] as bool? ?? false,
+      bmap: json['bmap'] as bool? ?? false,
+    );
 
 Map<String, dynamic> _$NativeMapsToJson(NativeMaps instance) =>
     <String, dynamic>{
