@@ -19,12 +19,11 @@ Location _$LocationFromJson(Map<String, dynamic> json) => Location(
       json['district'] as String,
       json['street'] as String,
       json['streetNum'] as String,
-      json['floor'] as String,
+      json['floor'] as String?,
       json['cityCode'] as String,
       json['adCode'] as String,
-      json['aoiName'] as String,
-      json['poiName'] as String,
-      json['description'] as String,
+      json['aoiName'] as String?,
+      json['poiName'] as String?,
       (json['speed'] as num).toDouble(),
       (json['bearing'] as num).toDouble(),
     );
@@ -47,7 +46,6 @@ Map<String, dynamic> _$LocationToJson(Location instance) => <String, dynamic>{
       'adCode': instance.adCode,
       'aoiName': instance.aoiName,
       'poiName': instance.poiName,
-      'description': instance.description,
       'speed': instance.speed,
       'bearing': instance.bearing,
     };

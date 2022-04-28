@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_print
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:amap_kit/amap_kit.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -32,15 +34,16 @@ class _MyAppState extends State<MyApp> {
   }
 
   void startLocation() async {
-    if (await Permission.locationWhenInUse.request().isGranted) {
-      locaitonId = await AmapKit().location.startLocation(
-          locationOptions: LocationOptions(),
-          onChanged: (code, location) {
-            print('$code');
-            print('${location?.toJson()}');
-          });
-      print(locaitonId);
+    if (Platform.isAndroid && !await Permission.locationWhenInUse.request().isGranted) {
+      return;
     }
+    locaitonId = await AmapKit().location.startLocation(
+        locationOptions: LocationOptions(isOnceLocation: false),
+        onChanged: (code, location) {
+          print('$code');
+          print('${location?.toJson()}');
+        });
+    print(locaitonId);
   }
 
   void stopLocation() async {
@@ -50,22 +53,35 @@ class _MyAppState extends State<MyApp> {
   void liveWeather() async {
     AmapKit().search.liveWeather(
         city: '成都',
-        onChanged: (weather) {
-          print('${weather.toJson()}');
+        onChanged: (code, weather) {
+          print('$code,${weather?.toJson()}');
         });
   }
 
   void forecastWeather() async {
     AmapKit().search.forecastWeather(
-        city: '成都',
-        onChanged: (weather) {
-          print('${weather.toJson()}');
+        city: 'a',
+        onChanged: (code, weather) {
+          print('$code,${weather?.toJson()}');
         });
   }
 
   void checkNativeMaps() async {
-    final result = await AmapKit().navigate.checkNativeMaps();
+    final result = await AmapKit().tool.checkNativeMaps();
     print(result.toJson());
+  }
+
+  void calculateLineDistance() async {
+    const ll1 = LatLng(lng: 104.066811, lat: 30.657635);
+    const ll2 = LatLng(lng: 104.166811, lat: 30.957635);
+    final result = await AmapKit().tool.calculateLineDistance(ll1, ll2);
+    print(result);
+  }
+
+  void coordinateConvert() async {
+    const ll1 = LatLng(lng: 104.066811, lat: 30.657635);
+    final result = await AmapKit().tool.coordinateConvert(ll1, CoordType.baidu);
+    print(result?.toJson());
   }
 
   void amapNav() {
@@ -93,13 +109,19 @@ class _MyAppState extends State<MyApp> {
             ElevatedButton(onPressed: startLocation, child: const Text('启动定位')),
             ElevatedButton(onPressed: stopLocation, child: const Text('停止定位')),
           ]),
-          ElevatedButton(onPressed: liveWeather, child: const Text('实时天气')),
-          ElevatedButton(onPressed: forecastWeather, child: const Text('天气预报')),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+            ElevatedButton(onPressed: liveWeather, child: const Text('实时天气')),
+            ElevatedButton(onPressed: forecastWeather, child: const Text('天气预报')),
+          ]),
           Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
             ElevatedButton(onPressed: checkNativeMaps, child: const Text('地图检查')),
+            ElevatedButton(onPressed: calculateLineDistance, child: const Text('距离计算')),
+          ]),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
             ElevatedButton(onPressed: amapNav, child: const Text('高德导航')),
             ElevatedButton(onPressed: bmapNav, child: const Text('百度导航')),
-          ])
+          ]),
+          ElevatedButton(onPressed: coordinateConvert, child: const Text('坐标转换')),
         ],
       ));
 }

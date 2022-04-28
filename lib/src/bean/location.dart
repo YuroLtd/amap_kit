@@ -52,17 +52,15 @@ class Location extends Object {
 
   final String streetNum;
 
-  final String floor;
+  final String? floor;
 
   final String cityCode;
 
   final String adCode;
 
-  final String aoiName;
+  final String? aoiName;
 
-  final String poiName;
-
-  final String description;
+  final String? poiName;
 
   final double speed;
 
@@ -86,7 +84,6 @@ class Location extends Object {
     this.adCode,
     this.aoiName,
     this.poiName,
-    this.description,
     this.speed,
     this.bearing,
   );

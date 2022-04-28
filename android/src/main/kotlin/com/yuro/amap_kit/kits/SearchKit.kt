@@ -24,7 +24,11 @@ object SearchKit {
             override fun onWeatherLiveSearched(p0: LocalWeatherLiveResult?, p1: Int) {
                 val liveResult = p0?.liveResult
                 if (p1 == 1000 && liveResult != null) {
-                    AmapKitPlugin.send(Kid.SEARCH, Bid.WEATHER_LIVE, 0, liveResult.toMap())
+                    if (liveResult.city == null) {
+                        AmapKitPlugin.send(Kid.SEARCH, Bid.WEATHER_LIVE, -2)
+                    } else {
+                        AmapKitPlugin.send(Kid.SEARCH, Bid.WEATHER_LIVE, 0, liveResult.toMap())
+                    }
                 } else {
                     AmapKitPlugin.send(Kid.SEARCH, Bid.WEATHER_LIVE, p1)
                 }
@@ -34,7 +38,11 @@ object SearchKit {
             override fun onWeatherForecastSearched(p0: LocalWeatherForecastResult?, p1: Int) {
                 val forecastResult = p0?.forecastResult
                 if (p1 == 1000 && forecastResult != null) {
-                    AmapKitPlugin.send(Kid.SEARCH, Bid.WEATHER_FORECAST, 0, forecastResult.toMap())
+                    if (forecastResult.city == null) {
+                        AmapKitPlugin.send(Kid.SEARCH, Bid.WEATHER_FORECAST, -2)
+                    } else {
+                        AmapKitPlugin.send(Kid.SEARCH, Bid.WEATHER_FORECAST, 0, forecastResult.toMap())
+                    }
                 } else {
                     AmapKitPlugin.send(Kid.SEARCH, Bid.WEATHER_FORECAST, p1)
                 }

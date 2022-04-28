@@ -9,12 +9,6 @@ class NavigateKit extends Kit {
   @override
   void handlerData(Bid bid, int code, data) {}
 
-  /// 本机地图安装检查
-  Future<NativeMaps> checkNativeMaps() async {
-    final result = await methodChannel.invokeMethod('checkNativeMaps');
-    return result != null ? NativeMaps.fromJson(Map.castFrom(result)) : NativeMaps();
-  }
-
   /// 启动高德导航
   ///
   /// + [src] 调起应用包名

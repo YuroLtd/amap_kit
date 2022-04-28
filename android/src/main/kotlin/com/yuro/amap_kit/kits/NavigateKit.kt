@@ -7,26 +7,7 @@ import android.net.Uri
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 
-object NavigationKit {
-    /**
-     * 检查本机地图安装情况
-     */
-    fun checkNativeMaps(context: Context, result: MethodChannel.Result) {
-        val amap = try {
-            context.packageManager.getPackageInfo("com.autonavi.minimap", 0)
-            true
-        } catch (e: Exception) {
-            false
-        }
-        val bmap = try {
-            context.packageManager.getPackageInfo("com.baidu.BaiduMap", 0)
-            true
-        } catch (e: Exception) {
-            false
-        }
-        result.success(mapOf("amap" to amap, "bmap" to bmap))
-    }
-
+object NavigateKit {
     /**
      * 启动高德导航
      */

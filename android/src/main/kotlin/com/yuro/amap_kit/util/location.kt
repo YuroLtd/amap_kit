@@ -20,7 +20,6 @@ fun AMapLocation.toMap(locationId: Long): Map<String, Any> = mutableMapOf(
         "adCode" to adCode,
         "aoiName" to aoiName,
         "poiName" to poiName,
-        "description" to description,
         "speed" to speed,
         "bearing" to bearing
 )

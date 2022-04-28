@@ -9,14 +9,35 @@ import io.flutter.plugin.common.MethodChannel
 
 object ToolKit {
     /**
-     * 计算两个坐标点的距离
+     * 检查本机地图安装情况
+     */
+    fun checkNativeMaps(context: Context, result: MethodChannel.Result) {
+        val amap = try {
+            context.packageManager.getPackageInfo("com.autonavi.minimap", 0)
+            true
+        } catch (e: Exception) {
+            false
+        }
+        val bmap = try {
+            context.packageManager.getPackageInfo("com.baidu.BaiduMap", 0)
+            true
+        } catch (e: Exception) {
+            false
+        }
+        result.success(mapOf("amap" to amap, "bmap" to bmap))
+    }
+
+    /**
+     * 计算两个坐标点的直线距离
      */
     fun calculateLineDistance(call: MethodCall, result: MethodChannel.Result) {
         try {
-            val ll1 = call.argument<Map<String, Double>>("ll1")!!
-            val ll2 = call.argument<Map<String, Double>>("ll2")!!
-            val dp1 = DPoint(ll1["lat"]!!, ll1["lng"]!!)
-            val dp2 = DPoint(ll2["lat"]!!, ll2["lng"]!!)
+            val lat1 = call.argument<Double>("lat1")!!
+            val lon1 = call.argument<Double>("lon1")!!
+            val lat2 = call.argument<Double>("lat2")!!
+            val lon2 = call.argument<Double>("lon2")!!
+            val dp1 = DPoint(lat1, lon1)
+            val dp2 = DPoint(lat2, lon2)
             val distance = CoordinateConverter.calculateLineDistance(dp1, dp2)
             result.success(distance)
         } catch (e: Exception) {
@@ -29,8 +50,9 @@ object ToolKit {
      */
     fun coordinateConvert(context: Context, call: MethodCall, result: MethodChannel.Result) {
         try {
-            val source = call.argument<Map<String, Double>>("source")!!
-            val sourceDPoint = DPoint(source["lat"]!!, source["lng"]!!)
+            val lat = call.argument<Double>("lat")!!
+            val lon = call.argument<Double>("lon")!!
+            val sourceDPoint = DPoint(lat,lon)
             val from = call.argument<Int>("from")!!
             val dPoint = CoordinateConverter(context).from(CoordinateConverter.CoordType.values()[from]).coord(sourceDPoint).convert()
             result.success(mapOf("lat" to dPoint.latitude, "lng" to dPoint.longitude))

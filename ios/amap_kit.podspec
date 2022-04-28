@@ -15,6 +15,9 @@ A new Flutter Plugin.
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
+  s.dependency 'AMapLocation'
+  s.dependency 'AMapSearch'
+  s.dependency 'AMap3DMap'
   s.platform = :ios, '9.0'
 
   # Flutter.framework does not contain a i386 slice.

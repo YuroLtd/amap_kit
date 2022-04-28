@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 
 import 'kit.dart';
 
-typedef OnLiveWeather = void Function(LiveWeather liveWeather);
-typedef OnForecastWeather = void Function(ForecastWeather forecastWeather);
+typedef OnLiveWeather = void Function(int code, LiveWeather? liveWeather);
+typedef OnForecastWeather = void Function(int code, ForecastWeather? forecastWeather);
 
 class SearchKit extends Kit {
   SearchKit(MethodChannel methodChannel) : super(methodChannel);
@@ -15,10 +15,15 @@ class SearchKit extends Kit {
 
   @override
   void handlerData(Bid bid, int code, data) {
+    print(data);
     if (bid == Bid.weatherLive) {
-      _onLiveWeather?.call(LiveWeather.fromJson(Map.castFrom(data)));
+      LiveWeather? liveWeather;
+      if (code == 0) liveWeather = LiveWeather.fromJson(Map.castFrom(data));
+      _onLiveWeather?.call(code, liveWeather);
     } else if (bid == Bid.weatherForecast) {
-      _onForecastWeather?.call(ForecastWeather.fromJson(Map.castFrom(data)..deepCast()));
+      ForecastWeather? forecastWeather;
+      if (code == 0) forecastWeather = ForecastWeather.fromJson(Map.castFrom(data)..deepCast());
+      _onForecastWeather?.call(code, forecastWeather);
     }
   }
 

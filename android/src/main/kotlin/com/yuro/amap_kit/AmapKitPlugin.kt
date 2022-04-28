@@ -8,7 +8,7 @@ import com.amap.api.location.AMapLocationClient
 import com.amap.api.maps.MapsInitializer
 import com.amap.api.services.core.ServiceSettings
 import com.yuro.amap_kit.kits.LocationKit
-import com.yuro.amap_kit.kits.NavigationKit
+import com.yuro.amap_kit.kits.NavigateKit
 import com.yuro.amap_kit.kits.SearchKit
 import com.yuro.amap_kit.kits.ToolKit
 import com.yuro.amap_kit.util.Bid
@@ -96,12 +96,12 @@ class AmapKitPlugin : FlutterPlugin, ActivityAware, MethodCallHandler, EventChan
 
             // search
             "weatherSearch" -> SearchKit.weatherSearch(activity, call)
-            // navigation
-            "checkNativeMaps" -> NavigationKit.checkNativeMaps(activity, result)
-            "amapNav" -> NavigationKit.amapNav(activity, call)
-            "bmapNav" -> NavigationKit.bmapNav(activity, call)
+            // navigate
+            "amapNav" -> NavigateKit.amapNav(activity, call)
+            "bmapNav" -> NavigateKit.bmapNav(activity, call)
 
             // tool
+            "checkNativeMaps" -> ToolKit.checkNativeMaps(activity, result)
             "calculateLineDistance" -> ToolKit.calculateLineDistance(call, result)
             "coordinateConvert" -> ToolKit.coordinateConvert(activity, call, result)
             else -> result.notImplemented()

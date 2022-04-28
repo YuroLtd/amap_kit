@@ -4,13 +4,13 @@ part 'weather.g.dart';
 
 @JsonSerializable()
 class Weather extends Object {
-  String adCode;
+ final String adCode;
 
-  String province;
+ final String province;
 
-  String city;
+ final String city;
 
-  String reportTime;
+ final String reportTime;
 
   Weather(
     this.adCode,
@@ -26,15 +26,15 @@ class Weather extends Object {
 
 @JsonSerializable()
 class LiveWeather extends Weather {
-  String temperature;
+  final String temperature;
 
-  String humidity;
+  final String humidity;
 
-  String weather;
+  final String weather;
 
-  String windDirection;
+  final String windDirection;
 
-  String windPower;
+  final String windPower;
 
   LiveWeather(
     this.temperature,
@@ -56,7 +56,7 @@ class LiveWeather extends Weather {
 
 @JsonSerializable(explicitToJson: true)
 class ForecastWeather extends Weather {
-  List<ForecastWeatherByDay> forecasts;
+  final List<ForecastWeatherByDay> forecasts;
 
   ForecastWeather(
     this.forecasts,
@@ -74,23 +74,23 @@ class ForecastWeather extends Weather {
 
 @JsonSerializable()
 class ForecastWeatherByDay extends Object {
-  String date;
+  final String date;
 
-  String dayTemp;
+  final  String dayTemp;
 
-  String dayWeather;
+  final String dayWeather;
 
-  String dayWindDirection;
+  final String dayWindDirection;
 
-  String dayWindPower;
+  final String dayWindPower;
 
-  String nightTemp;
+  final String nightTemp;
 
-  String nightWeather;
+  final String nightWeather;
 
-  String nightWindDirection;
+  final String nightWindDirection;
 
-  String nightWindPower;
+  final String nightWindPower;
 
   ForecastWeatherByDay(
     this.date,
