@@ -38,7 +38,7 @@ class _MyAppState extends State<MyApp> {
       return;
     }
     locaitonId = await AmapKit().location.startLocation(
-        locationOptions: LocationOptions(isOnceLocation: false),
+       options: LocationOptions(isOnceLocation: false),
         onChanged: (code, location) {
           print('$code');
           print('${location?.toJson()}');

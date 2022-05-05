@@ -26,8 +26,8 @@ class LocationKit extends Kit {
   ///
   /// + [options]   定位参数
   /// + [onChanged] 定位结果回调
-  Future<int> startLocation({required OnLocationChanged onChanged, LocationOptions? locationOptions}) async {
-    final options = locationOptions ?? LocationOptions();
+  Future<int> startLocation({required OnLocationChanged onChanged, LocationOptions? options}) async {
+    options = options ?? LocationOptions();
     await methodChannel.invokeMethod('startLocation', options.toMap());
     _funcMap[options.locationId] = onChanged;
     return options.locationId;
