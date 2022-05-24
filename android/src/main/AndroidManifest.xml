@@ -25,4 +25,8 @@
     <application>
         <service android:name="com.amap.api.location.APSService" />
     </application>
+    <queries>
+        <package android:name="com.autonavi.minimap" />
+        <package android:name="com.baidu.BaiduMap" />
+    </queries>
 </manifest>
