@@ -18,6 +18,15 @@ class LatLng {
   factory LatLng.fromJson(Map<String, dynamic> srcJson) => _$LatLngFromJson(srcJson);
 
   Map<String, dynamic> toJson() => _$LatLngToJson(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return (other is LatLng) ? hashCode == other.hashCode : false;
+  }
+
+  @override
+  int get hashCode => '$lat,$lng'.hashCode;
 }
 
 /// 常用坐标系
