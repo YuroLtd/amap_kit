@@ -12,7 +12,6 @@ import com.yuro.amap_kit.util.Kid
 import com.yuro.amap_kit.util.toMap
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
-import java.util.*
 
 object LocationKit {
     private val map = mutableMapOf<Long, LocationImpl>()

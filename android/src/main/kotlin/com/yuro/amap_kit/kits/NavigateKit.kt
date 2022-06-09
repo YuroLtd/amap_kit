@@ -1,11 +1,9 @@
 package com.yuro.amap_kit.kits
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import io.flutter.plugin.common.MethodCall
-import io.flutter.plugin.common.MethodChannel
 
 object NavigateKit {
     /**
